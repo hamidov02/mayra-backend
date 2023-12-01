@@ -1,6 +1,5 @@
 package com.mayra.mayrabackend.model;
 
-import com.mayra.mayrabackend.model.enums.PaymentType;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,17 +20,11 @@ public class Order {
     private com.mayrabackend.model.User user;
 
     private Date orderDate;
-    private String status; // Consider using an enum here
-
+    public enum OrderStatus { PENDING, SHIPPED, DELIVERED, CANCELLED}
     private double totalAmount;
     private String shippingAddress;
-
-    @Enumerated(EnumType.STRING)
-    private PaymentType paymentType;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 

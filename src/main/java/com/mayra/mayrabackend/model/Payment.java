@@ -1,7 +1,5 @@
 package com.mayra.mayrabackend.model;
 
-import com.mayra.mayrabackend.model.enums.PaymentStatus;
-import com.mayra.mayrabackend.model.enums.PaymentType;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -19,12 +17,10 @@ public class Payment {
     private double amount;
     private String transactionId; // For storing Stripe transaction ID or similar
 
-    @Enumerated(EnumType.STRING)
-    private PaymentType paymentType;
+    private enum PaymentType { CASH, CREDIT_CARD }
 
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus;
 
+    private enum PaymentStatus { PENDING, COMPLETED, FAILED, CANCELLED }
     @Temporal(TemporalType.TIMESTAMP)
     private Date paymentDate;
 
