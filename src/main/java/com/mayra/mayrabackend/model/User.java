@@ -1,98 +1,51 @@
-package com.mayrabackend.model;
+package com.mayra.mayrabackend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+import java.util.List;
 
 @Entity
+@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String surname;
+
+    @NotNull
+    @Size(min = 1, max = 100)
+    private String fullname;
+
+    @NotNull
+    @Size(min = 10, max = 15)
+    private String phone;
+
+    @NotNull
+    @Email
     private String email;
-    private String username;
+
     private String address;
-    private String phoneNumber;
+
+    @NotNull
+    @Size(min = 4, max = 50)
+    private String username;
+
+    @NotNull
+    private String passwordHash;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private UserRole role;
 
-    public enum Role { ADMIN, REGISTERED_USER, SUBSCRIBER }
+    @OneToOne(mappedBy = "user")
+    private ShoppingCart shoppingCart;
 
-    // Constructors
-    public User() {
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
-    public User(String name, String surname, String email, String username, String address, String phoneNumber, Role role) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.username = username;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.role = role;
-    }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image profilePicture;
 }
